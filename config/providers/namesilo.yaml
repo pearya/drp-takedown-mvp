@@ -1,0 +1,9 @@
+provider_key: namesilo
+display_name: NameSilo, LLC
+roles:
+  - registrar
+aliases:
+  - namesilo
+  - name silo
+entity_contains:
+  - namesilo

@@ -1,0 +1,18 @@
+provider_key: namesilo
+channels:
+  - channel_id: namesilo-phishing-report
+    provider_role: registrar
+    region: OVERSEAS
+    route_type: browser_form
+    executor: playwright
+    template_key: namesilo_phishing_report
+    entry_url: https://www.namesilo.com/phishing-report
+    requires_login: false
+    captcha_strategy: none
+    implementation_status: real
+    attachments:
+      required:
+        - phishing_screenshot
+      optional:
+        - trademark_certificate
+        - business_license

@@ -1,0 +1,13 @@
+provider_key: verisign
+channels:
+  - channel_id: verisign-registry-email
+    provider_role: registry
+    region: OVERSEAS
+    route_type: email
+    executor: email
+    template_key: takedown_email
+    send_to: abuse@verisign.com
+    captcha_strategy: none
+    attachments:
+      required:
+        - phishing_screenshot

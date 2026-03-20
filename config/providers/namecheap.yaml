@@ -1,0 +1,8 @@
+provider_key: namecheap
+display_name: Namecheap, Inc.
+roles:
+  - registrar
+aliases:
+  - namecheap
+entity_contains:
+  - namecheap

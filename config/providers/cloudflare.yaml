@@ -1,0 +1,11 @@
+provider_key: cloudflare
+display_name: Cloudflare
+roles:
+  - dns
+  - ip_hosting
+aliases:
+  - cloudflare
+entity_contains:
+  - cloudflare
+ns_suffixes:
+  - ns.cloudflare.com

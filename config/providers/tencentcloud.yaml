@@ -1,0 +1,14 @@
+provider_key: tencentcloud
+display_name: 腾讯云
+roles:
+  - dns
+  - ip_hosting
+aliases:
+  - tencent cloud
+  - tencentcloud
+  - dnspod
+entity_contains:
+  - tencent
+  - dnspod
+ns_suffixes:
+  - dnspod.net

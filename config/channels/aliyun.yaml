@@ -1,0 +1,53 @@
+provider_key: aliyun
+channels:
+  - channel_id: aliyun-domain-ticket
+    provider_role: registrar
+    region: CN
+    route_type: browser_form
+    executor: playwright
+    template_key: takedown_ticket
+    entry_url: https://account.aliyun.com/ticket/create
+    requires_login: true
+    auth_profile: aliyun_ops
+    captcha_strategy: manual_takeover
+    attachments:
+      required:
+        - phishing_screenshot
+      optional:
+        - business_license
+        - trademark_certificate
+  - channel_id: aliyun-domain-email
+    provider_role: registrar
+    region: CN
+    route_type: email
+    executor: email
+    template_key: takedown_email
+    send_to: abuse@service.aliyun.com
+    captcha_strategy: none
+    attachments:
+      required:
+        - phishing_screenshot
+  - channel_id: aliyun-dns-ticket
+    provider_role: dns
+    region: CN
+    route_type: browser_form
+    executor: playwright
+    template_key: takedown_ticket
+    entry_url: https://account.aliyun.com/ticket/create
+    requires_login: true
+    auth_profile: aliyun_ops
+    captcha_strategy: manual_takeover
+    attachments:
+      required:
+        - phishing_screenshot
+  - channel_id: aliyun-hosting-email
+    provider_role: ip_hosting
+    region: CN
+    route_type: email
+    executor: email
+    template_key: takedown_email
+    send_to: yundun@service.aliyun.com
+    captcha_strategy: none
+    attachments:
+      required:
+        - phishing_screenshot

@@ -1,0 +1,11 @@
+customer_id: meituan
+brand_name_cn: 美团
+brand_name_en: Meituan
+legal_entity_cn: 北京三快科技有限公司
+legal_entity_en: Beijing Sankuai Technology Co., Ltd.
+contact_email: abuse@meituan.example
+reporter_email: abuse@meituan.example
+official_website: https://www.meituan.com
+assets:
+  business_license: D:\DRP\config\customers\meituan\assets\business-license.txt
+  trademark_certificate: D:\DRP\config\customers\meituan\assets\trademark-certificate.txt

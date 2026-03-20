@@ -1,0 +1,17 @@
+provider_key: aliyun
+display_name: 阿里云
+roles:
+  - registrar
+  - dns
+  - ip_hosting
+aliases:
+  - aliyun
+  - alibaba cloud
+  - hichina
+  - alibabacloud
+entity_contains:
+  - aliyun
+  - alibabacloud
+  - hichina
+ns_suffixes:
+  - alidns.com

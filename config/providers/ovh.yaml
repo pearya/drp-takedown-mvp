@@ -1,0 +1,10 @@
+provider_key: ovh
+display_name: OVHcloud
+roles:
+  - ip_hosting
+aliases:
+  - ovh
+  - ovhcloud
+entity_contains:
+  - ovh
+  - ovhcloud

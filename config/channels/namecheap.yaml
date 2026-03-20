@@ -1,0 +1,32 @@
+provider_key: namecheap
+channels:
+  - channel_id: namecheap-abuse-ticket
+    provider_role: registrar
+    region: OVERSEAS
+    route_type: browser_form
+    executor: playwright
+    template_key: takedown_ticket
+    entry_url: https://support.namecheap.com/index.php?/Tickets/Submit
+    requires_login: true
+    auth_profile: namecheap_ops
+    captcha_strategy: manual_takeover
+    attachments:
+      required:
+        - phishing_screenshot
+      optional:
+        - trademark_certificate
+        - business_license
+  - channel_id: namecheap-abuse-email
+    provider_role: registrar
+    region: OVERSEAS
+    route_type: email
+    executor: email
+    template_key: takedown_email
+    send_to: abuse@namecheap.com
+    captcha_strategy: none
+    attachments:
+      required:
+        - phishing_screenshot
+      optional:
+        - trademark_certificate
+        - business_license

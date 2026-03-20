@@ -1,0 +1,13 @@
+customer_id: tencent
+brand_name_cn: 腾讯
+brand_name_en: Tencent
+legal_entity_cn: 深圳市腾讯计算机系统有限公司
+legal_entity_en: Tencent Technology (Shenzhen) Company Limited
+contact_email: abuse@tencent.example
+reporter_email: abuse@tencent.example
+official_website: https://www.tencent.com
+signature_cn: ''
+signature_en: ''
+assets:
+  business_license: D:\DRP\config\customers\tencent\assets\business-license.txt
+  trademark_certificate: D:\DRP\config\customers\tencent\assets\trademark-certificate.txt

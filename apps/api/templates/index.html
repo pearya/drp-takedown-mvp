@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>仿冒网站批量处置控制台</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="aurora aurora-a"></div>
+  <div class="aurora aurora-b"></div>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">DRP / Batch Takedown Control</p>
+      <h1>仿冒网站批量处置控制台</h1>
+      <p class="lead">支持批量录入、OpenClaw 编排、客户配置、NameSilo 渠道参数维护、自动化执行与结果验证。</p>
+      <div class="hero-tags">
+        <span>批量编排</span>
+        <span>责任商识别</span>
+        <span>渠道自动化</span>
+        <span>结果追踪</span>
+      </div>
+    </div>
+    <div class="stats" id="statsBar"></div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="batch">批量处置</button>
+    <button class="tab" data-tab="cases">案件中心</button>
+    <button class="tab" data-tab="customers">客户配置</button>
+    <button class="tab" data-tab="namesilo">NameSilo 配置</button>
+    <button class="tab" data-tab="templates">话术配置</button>
+    <button class="tab" data-tab="automation">自动化中心</button>
+  </nav>
+
+  <main class="workspace">
+    <section class="tab-panel active" id="tab-batch">
+      <div class="grid three">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>批量创建并处置</h2>
+              <p>每行一个 URL，指定客户后批量创建案例并执行处置。</p>
+            </div>
+          </div>
+          <form id="batchForm" class="stack">
+            <label>
+              <span>客户</span>
+              <select name="customer_id" id="batchCustomerSelect" required></select>
+            </label>
+            <label>
+              <span>批量 URL 列表</span>
+              <textarea name="urls_text" rows="12" placeholder="https://a.example.com&#10;https://b.example.com" required></textarea>
+            </label>
+            <label>
+              <span>批次说明</span>
+              <textarea name="notes" rows="3" placeholder="例如：腾讯 3 月第 2 批仿冒站点"></textarea>
+            </label>
+            <label class="toggle-row">
+              <input type="checkbox" name="auto_execute" checked>
+              <span>创建后自动提交渠道</span>
+            </label>
+            <label class="toggle-row">
+              <input type="checkbox" name="auto_verify" checked>
+              <span>提交后自动验证站点状态</span>
+            </label>
+            <button type="submit" class="primary">批量处置</button>
+          </form>
+          <div class="status-box" id="globalStatus">系统已启动。</div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>批次队列</h2>
+              <p>查看每批次的执行进度和验证结果。</p>
+            </div>
+          </div>
+          <div id="batchList" class="list-stack"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>批次详情</h2>
+              <p id="batchHint">请选择一个批次查看详情。</p>
+            </div>
+            <div class="inline-actions">
+              <button id="verifyBatchBtn">重新验证整批</button>
+            </div>
+          </div>
+          <div id="batchSummary" class="empty-state">暂无批次详情。</div>
+          <div id="batchCaseList" class="list-stack compact"></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="tab-cases">
+      <div class="grid two">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>案件列表</h2>
+              <p>查看每个站点的责任商、动作、执行与验证结果。</p>
+            </div>
+          </div>
+          <div id="caseList" class="list-stack"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>案件详情</h2>
+              <p id="caseHint">请选择案件查看详情。</p>
+            </div>
+            <div class="inline-actions">
+              <button id="resolveBtn">识别责任商</button>
+              <button id="planBtn">生成计划</button>
+              <button id="executeBtn" class="primary">执行处置</button>
+              <button id="verifyCaseBtn">验证站点</button>
+            </div>
+          </div>
+          <div class="detail-columns">
+            <article class="info-panel">
+              <h3>案件摘要</h3>
+              <div id="caseSummary" class="empty-state">暂无案件。</div>
+            </article>
+            <article class="info-panel">
+              <h3>处置成效</h3>
+              <div id="verificationPanel" class="empty-state">尚未验证。</div>
+            </article>
+            <article class="info-panel wide">
+              <h3>责任商识别</h3>
+              <div id="providerList" class="empty-state">暂无识别结果。</div>
+            </article>
+            <article class="info-panel wide">
+              <h3>渠道动作</h3>
+              <div id="actionList" class="empty-state">暂无动作。</div>
+            </article>
+            <article class="info-panel wide">
+              <h3>执行记录</h3>
+              <div id="runList" class="empty-state">暂无执行记录。</div>
+            </article>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="tab-customers">
+      <div class="grid two">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>客户清单</h2>
+              <p>新增或维护客户品牌信息、附件和联系人。</p>
+            </div>
+          </div>
+          <div id="customerList" class="list-stack"></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>客户编辑</h2>
+              <p>支持 Web 端直接维护，无需手改配置文件。</p>
+            </div>
+          </div>
+          <form id="customerForm" class="stack">
+            <label><span>客户 ID</span><input name="customer_id" placeholder="例如 jd" required></label>
+            <label><span>品牌中文名</span><input name="brand_name_cn" required></label>
+            <label><span>品牌英文名</span><input name="brand_name_en" required></label>
+            <label><span>主体中文名</span><input name="legal_entity_cn" required></label>
+            <label><span>主体英文名</span><input name="legal_entity_en" required></label>
+            <label><span>联系邮箱</span><input name="contact_email" required></label>
+            <label><span>举报邮箱（NameSilo 表单 email）</span><input name="reporter_email"></label>
+            <label><span>客户官网（Real Website）</span><input name="official_website" placeholder="https://www.example.com"></label>
+            <label><span>中文签名</span><textarea name="signature_cn" rows="3"></textarea></label>
+            <label><span>英文签名</span><textarea name="signature_en" rows="3"></textarea></label>
+            <label><span>营业执照</span><input type="file" name="business_license"></label>
+            <label><span>商标证明</span><input type="file" name="trademark_certificate"></label>
+            <button type="submit" class="primary">保存客户</button>
+          </form>
+        </section>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="tab-namesilo">
+      <div class="grid two">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>NameSilo 客户参数</h2>
+              <p>专门维护 NameSilo 举报工单字段变量。</p>
+            </div>
+          </div>
+          <form id="namesiloCustomerForm" class="stack">
+            <label>
+              <span>选择客户</span>
+              <select id="namesiloCustomerSelect" name="customer_id" required></select>
+            </label>
+            <label><span>Email（举报人邮箱）</span><input name="reporter_email" required></label>
+            <label><span>Real Website（客户官网）</span><input name="official_website" required></label>
+            <label><span>Phishing Website（自动取案件 URL）</span><input name="phishing_website_preview" readonly></label>
+            <button type="submit" class="primary">保存 NameSilo 客户参数</button>
+          </form>
+          <div class="status-box" id="namesiloTemplateHint">话术模板会自动注入品牌变量。</div>
+        </section>
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>NameSilo 渠道配置</h2>
+              <p>维护入口地址、模板 key 和默认举报邮箱。</p>
+            </div>
+          </div>
+          <form id="namesiloSettingsForm" class="stack">
+            <label><span>Entry URL</span><input name="entry_url" required></label>
+            <label><span>Channel ID</span><input name="channel_id" required></label>
+            <label><span>Template Key</span><input name="template_key" required></label>
+            <label><span>Default Reporter Email</span><input name="default_reporter_email"></label>
+            <label><span>Notes</span><textarea name="notes" rows="6"></textarea></label>
+            <button type="submit" class="primary">保存 NameSilo 渠道配置</button>
+          </form>
+          <div id="namesiloVariableMap" class="code-box"></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="tab-templates">
+      <div class="grid two">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>话术模板</h2>
+              <p>可直接在 Web 端编辑中英文模板。</p>
+            </div>
+          </div>
+          <div id="templateList" class="list-stack"></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>模板编辑器</h2>
+              <p>NameSilo 海外渠道建议使用英文模板，品牌变量支持 <code>&#123;&#123;brand_name&#125;&#125;</code>。</p>
+            </div>
+          </div>
+          <form id="templateForm" class="stack">
+            <label><span>语言目录</span><input name="locale" readonly></label>
+            <label><span>模板 Key</span><input name="template_key" readonly></label>
+            <label><span>模板内容</span><textarea name="content" rows="20" required></textarea></label>
+            <button type="submit" class="primary">保存模板</button>
+          </form>
+        </section>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="tab-automation">
+      <div class="grid two">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>OpenClaw 接入</h2>
+              <p>提交客户 ID 与 URL 列表即可批量执行。</p>
+            </div>
+          </div>
+          <div id="openclawGuide" class="code-box"></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>自动化实施说明</h2>
+              <p>展示现有自动化方案与结果判定逻辑。</p>
+            </div>
+          </div>
+          <div id="automationGuide" class="list-stack"></div>
+        </section>
+        <section class="panel full">
+          <div class="panel-head">
+            <div>
+              <h2>渠道自动化台账</h2>
+              <p>查看各渠道当前是 mock 还是真实执行。</p>
+            </div>
+          </div>
+          <div id="channelTable" class="table-wrap"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="/static/app.js" defer></script>
+</body>
+</html>

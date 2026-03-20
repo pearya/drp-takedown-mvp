@@ -1,0 +1,5 @@
+entry_url: https://www.namesilo.com/phishing-report
+channel_id: namesilo-phishing-report
+template_key: namesilo_phishing_report
+default_reporter_email: ''
+notes: NameSilo overseas channel profile.

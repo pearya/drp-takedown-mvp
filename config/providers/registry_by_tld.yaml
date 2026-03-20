@@ -1,0 +1,13 @@
+mappings:
+  com:
+    provider_key: verisign
+    provider_name: VeriSign Global Registry Services
+  net:
+    provider_key: verisign
+    provider_name: VeriSign Global Registry Services
+  org:
+    provider_key: pir
+    provider_name: Public Interest Registry
+  cn:
+    provider_key: cnnic
+    provider_name: 中国互联网络信息中心 CNNIC

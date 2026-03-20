@@ -1,0 +1,38 @@
+provider_key: cloudflare
+channels:
+  - channel_id: cloudflare-abuse-form
+    provider_role: dns
+    region: OVERSEAS
+    route_type: browser_form
+    executor: playwright
+    template_key: takedown_ticket
+    entry_url: https://abuse.cloudflare.com/phishing
+    requires_login: false
+    captcha_strategy: email_otp
+    attachments:
+      required:
+        - phishing_screenshot
+      optional:
+        - trademark_certificate
+  - channel_id: cloudflare-abuse-email
+    provider_role: dns
+    region: OVERSEAS
+    route_type: email
+    executor: email
+    template_key: takedown_email
+    send_to: abuse@cloudflare.com
+    captcha_strategy: none
+    attachments:
+      required:
+        - phishing_screenshot
+  - channel_id: cloudflare-hosting-email
+    provider_role: ip_hosting
+    region: OVERSEAS
+    route_type: email
+    executor: email
+    template_key: takedown_email
+    send_to: abuse@cloudflare.com
+    captcha_strategy: none
+    attachments:
+      required:
+        - phishing_screenshot

@@ -1,0 +1,16 @@
+provider_key: ovh
+channels:
+  - channel_id: ovh-phishing-ticket
+    provider_role: ip_hosting
+    region: OVERSEAS
+    route_type: browser_form
+    executor: playwright
+    template_key: takedown_ticket
+    entry_url: https://www.ovh.com/abuse/
+    requires_login: false
+    captcha_strategy: none
+    attachments:
+      required:
+        - phishing_screenshot
+      optional:
+        - trademark_certificate

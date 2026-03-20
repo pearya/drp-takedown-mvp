@@ -1,0 +1,8 @@
+provider_key: verisign
+display_name: VeriSign Global Registry Services
+roles:
+  - registry
+aliases:
+  - verisign
+entity_contains:
+  - verisign
